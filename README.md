@@ -21,14 +21,61 @@ Or install it yourself as:
     @tourney = Binarybeast::Tourney.new
 
 there are several options you can use when creating a tourney:
-    :title => "Test"
-    :description => "Lorem ipsum"
-... and more...
 
-## Contributing
+    :title => String
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+    :description => String
+    
+    :public => Integer
+    
+    :gamecode => String
+    
+    :typeid => Integer
+    
+    :elimination => Integer
+    
+    :teammode => Integer
+    
+    :groupcount => Integer
+    
+    :teamsfromgroup => Integer
+    
+    :location => String
+    
+    :maxteams => Integer
+    
+    :replayuploads => Integer
+    
+    :replaydownloads => Integer
+    
+    :autostart => Integer
+    
+    :returndata => Integer
+
+however, only :title => String is required or :tourneyid => String if you want to load an existing tournament.
+
+## Create a new Tournament on BinaryBeast
+
+    @tourney = Binarybeast::Tourney.new(:title => "Test Tournament", :description => "This comes from a ruby gem accessing your api.")
+    
+    @tourney.create
+    
+## Fetching a existing Tournament from BinaryBeast
+
+    @tourney = Binarybeast::Tourney.new(:tourneyid => "xSC21212194")
+    
+    @tourney.load
+    
+## Some stuff you should know
+
+The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct access to the API you can go with something like this:
+
+    @tourney = Binarybeast::Tourney.new(:title => "Test")
+    
+    response = @tourney.create(:force => true)
+    
+the :force => true tells the function to give you the callback from the binarybeast directly. The response is now a parsed hash, so this will work
+
+    response["Result"]
+    
+    => 200

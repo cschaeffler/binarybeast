@@ -1,6 +1,6 @@
 # Binarybeast
 
-This is a Ruby Gem to access the BinaryBeast.com API.
+This is a Ruby Gem to access the BinaryBeast.com API. It was extracted from the [Gamkoi.com](http://www.gamkoi.com) Source Code and was written by Crispin Schäffler
 
 ## Installation
 

@@ -18,11 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-@tourney = Binarybeast::Tourney.new
+    @tourney = Binarybeast::Tourney.new
 
 there are several options you can use when creating a tourney:
-:title => "Test"
-:description => "Lorem ipsum"
+    :title => "Test"
+    :description => "Lorem ipsum"
 ... and more...
 
 ## Contributing

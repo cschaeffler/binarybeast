@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Binarybeast::Tourney do
-  before :each do
+  before :all do
     @tourney = Binarybeast::Tourney.new(:title => "Gamkoi DevTest Ruby", :description => "This is a tourney created via the Gamkoi.com ruby gem.")
   end
   describe "new" do
@@ -37,18 +37,57 @@ describe Binarybeast::Tourney do
   describe "update" do
     it "should respond to update" do
       @tourney.should respond_to(:update)
+      response = @tourney.update(:force => true)
+      response.should be_instance_of Hash
     end
   end
-  describe "broadcast" do
+  describe "create" do
     it "should respond to publish" do
       @tourney.should respond_to(:publish)
     end
     it "should return parsed json array" do
-      @tourney.broadcast.should eq(true)
+      @tourney.create.should eq(true)
     end
     it "should return forced broadcast" do
-      response = @tourney.broadcast(true)
+      response = @tourney.create(:force => true)
       response["Result"].should eq(200)
+      response.should be_instance_of Hash
+    end
+  end
+  describe "delete" do
+    it "should respond to delete" do
+      @tourney.should respond_to(:delete)
+    end
+    it "should delete the tourney" do
+      tourney = Binarybeast::Tourney.new(:title => "Delete Test")
+      tourney.create
+      response = tourney.delete(:force => true)
+      response.should be_instance_of Hash
+    end
+  end
+  describe "start" do
+    it "should respond to start" do
+      @tourney.should respond_to(:start)
+    end
+    it "should start the tourney" do
+    end
+  end
+  describe "load" do
+    it "should respond to load" do
+      @tourney.should respond_to(:load)
+    end
+    it "should load a tourney and set attributes" do
+      tourney = Binarybeast::Tourney.new(:tourneyid => "xSC21212194")
+      tourney.load
+      tourney.title.should eq("Gamkoi Dev Dummy")
+    end
+  end
+  describe "set status" do
+    it "should respond to building" do
+      @tourney.should respond_to(:setBuilding)
+    end
+    it "should respond to confirmation" do
+      @tourney.should respond_to(:setConfirmation)
     end
   end
 end

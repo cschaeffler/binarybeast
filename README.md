@@ -1,6 +1,6 @@
 # Binarybeast
 
-TODO: Write a gem description
+This is a Ruby Gem to access the BinaryBeast.com API.
 
 ## Installation
 
@@ -18,7 +18,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+@tourney = Binarybeast::Tourney.new
+
+there are several options you can use when creating a tourney:
+:title => "Test"
+:description => "Lorem ipsum"
+... and more...
 
 ## Contributing
 

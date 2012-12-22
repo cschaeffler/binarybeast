@@ -35,7 +35,7 @@ module Binarybeast
       def load(options={:force => true})
         options[:id] ? id = options[:id] : id = "xSC21212194"
         options[:force] ? force = options[:force] : force = false
-        response = HTTParty.get('https://binarybeast.com/api', :query => {:APIKey => Binarybeast.api_key,  :APIService => "Tourney.TourneyLoad.Info", :id => id})
+        response = self.get('https://binarybeast.com/api', :query => {:APIKey => Binarybeast.api_key,  :APIService => "Tourney.TourneyLoad.Info", :id => id})
         if response["Result"] == 200
           return response if force
           tourney = Binarybeast::Tourney.new( :id => id,

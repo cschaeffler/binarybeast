@@ -32,6 +32,19 @@ module Binarybeast
   # Setter for api_key Variable
   def self.api_key=(api_key)
     @@api_key=api_key
-  end  
+  end
+
+  # Call
+  # Method
+  # ------------
+  # Raw Call Method for those who want to make raw calls on the API of Binarybeast. APIKey will be taken from the module variable
+  # Example:
+  # tourney = Binarybeast.call(:APIService => "Tourney.TourneyCreate.Create", :title => "Test")
+  # ------------
+
+  def self.call(options={})
+    options.merge!({:APIKey => @@api_key})
+    return self.get("", :query => options)
+  end
 
 end

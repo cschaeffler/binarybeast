@@ -37,7 +37,7 @@ describe Binarybeast::Tourney do
       @tourney.should respond_to(:replay_downloads)
       @tourney.should respond_to(:description)
       @tourney.should respond_to(:return_data)
-      @tourney.should respond_to(:apikey)
+      @tourney.should respond_to(:api_key)
     end
   end
   describe "update" do

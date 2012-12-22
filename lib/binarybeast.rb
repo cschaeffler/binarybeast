@@ -6,9 +6,9 @@ end
 # Binarybeast
 # Module
 # ---------------------
-# has 1 variable called apikey, this is your apikey. the default is the apikey from gamkoi.com
+# has 1 variable called api_key, this is your api_key. the default is the api_key from gamkoi.com
 # Example
-# Binarybeast.apikey = "12345"
+# Binarybeast.api_key = "12345"
 # => "12345"
 # ---------------------
 # does contain all the classes that interact with binarybeast api.
@@ -19,17 +19,17 @@ module Binarybeast
   base_uri 'https://binarybeast.com/api'
   # Set HTTParty standard format to JSON, its standard what binarybeast api returns.
   format :json
-  # Default APIKey, this one is taken from my personal account.
-  @@apikey = "3c8955130c6e1406420d6202649651fe.50c9faa593f9c6.00530099"
+  # Default api_key, this one is taken from my personal account.
+  @@api_key = "3c8955130c6e1406420d6202649651fe.50c9faa593f9c6.00530099"
   
-  # Getter for APIKey Variable
-  def self.apikey
-    @@apikey
+  # Getter for api_key Variable
+  def self.api_key
+    @@api_key
   end
   
-  # Setter for APIKey Variable
-  def self.apikey=(apikey)
-    @@apikey=apikey
+  # Setter for api_key Variable
+  def self.api_key=(api_key)
+    @@api_key=api_key
   end  
   
   # Tourney
@@ -45,7 +45,7 @@ module Binarybeast
     include HTTParty
     base_uri 'https://binarybeast.com/api'
     format :json
-    attr_accessor :apikey, :tourneyid, :title, :publish, :gamecode, :typeid, :elimination, :teammode, :groupcount, :teamsfromgroup, :datestart, :location, :maxteams, :replayuploads, :replaydownloads, :description, :returndata
+    attr_accessor :api_key, :id, :title, :publish, :game_code, :type_id, :elimination, :team_mode, :group_count, :teams_from_group, :date_start, :location, :max_teams, :replay_uploads, :replay_downloads, :description, :return_data
     
     # Tourney Eigenclass
     # Eigenclass
@@ -57,26 +57,26 @@ module Binarybeast
 
     class << self
       def load(options={:force => true})
-        options[:tourneyid] ? id = options[:tourneyid] : id = "xSC21212194"
-        response = self.class.get("", :query => {:APIKey => self.apikey,  :APIService => "Tourney.TourneyLoad.Info", :TourneyID => self.tourneyid})
+        options[:id] ? id = options[:id] : id = "xSC21212194"
+        response = self.class.get("", :query => {:APIKey => self.api_key,  :APIService => "Tourney.TourneyLoad.Info", :id => self.id})
         if response["Result"] == 200
           return response if options[:force] == true
-          tourney = Binarybeast::Tourney.new( :tourneyid => id,
+          tourney = Binarybeast::Tourney.new( :id => id,
                                               :title => response["TourneyInfo"]["Title"],
                                               :publish => response["TourneyInfo"]["Public"],
-                                              :gamecode => response["TourneyInfo"]["GameCode"],
-                                              :typeid => response["TourneyInfo"]["TypeID"],
+                                              :game_code => response["TourneyInfo"][""GameCode""],
+                                              :type_id => response["TourneyInfo"]["TypeID"],
                                               :elimination => response["TourneyInfo"]["Elimination"],
-                                              :teammode => response["TourneyInfo"]["TeamMode"],
-                                              :groupcount => response["TourneyInfo"]["GroupCount"],
-                                              :teamsfromgroup => response["TourneyInfo"]["TeamsFromGroup"],
-                                              :datestart => response["TourneyInfo"]["DateStart"],
+                                              :team_mode => response["TourneyInfo"]["TeamMode"],
+                                              :group_count => response["TourneyInfo"]["GroupCount"],
+                                              :teams_from_group => response["TourneyInfo"]["TeamsFromGroup"],
+                                              :date_start => response["TourneyInfo"]["DateStart"],
                                               :location => response["TourneyInfo"]["Location"],
-                                              :maxteams => response["TourneyInfo"]["MaxTeams"],
-                                              :replayuploads => response["TourneyInfo"]["ReplayUploads"],
-                                              :replaydownloads => response["TourneyInfo"]["ReplayDownloads"],
+                                              :max_teams => response["TourneyInfo"]["MaxTeams"],
+                                              :replay_uploads => response["TourneyInfo"]["ReplayUploads"],
+                                              :replay_downloads => response["TourneyInfo"]["ReplayDownloads"],
                                               :description => response["TourneyInfo"]["Description"],
-                                              :returndata => response["TourneyInfo"]["ReturnData"])
+                                              :return_data => response["TourneyInfo"]["ReturnData"ƒ])
           return tourney
         else
           return false
@@ -93,23 +93,23 @@ module Binarybeast
     # ----------------
 
     def initialize(options={:title => "Gamkoi DevTest"})
-      self.tourneyid = options[:tourneyid] if options[:tourneyid]
+      self.id = options[:id] if options[:id]
       options[:title] ? self.title = options[:title] : self.title = "Test"
       options[:public] ? self.publish = options[:public] : self.publish = 0
-      options[:gamecode] ? self.gamecode = options[:gamecode] : self.gamecode = ""
-      options[:typeid] ? self.typeid = options[:typeid] : self.typeid = 0
+      options[:game_code] ? self.game_code = options[:game_code] : self.game_code = ""
+      options[:type_id] ? self.type_id = options[:type_id] : self.type_id = 0
       options[:elimination] ? self.elimination = options[:elimination] : self.elimination = 1
-      options[:teammode] ? self.teammode = options[:teammode] : self.teammode = 1
-      options[:groupcount] ? self.groupcount = options[:groupcount] : self.groupcount = 1
-      options[:teamsfromgroup] ? self.teamsfromgroup = options[:teamsfromgroup] : self.teamsfromgroup = 2
-      options[:datestart] ? self.datestart = options[:datestart] : self.datestart = nil
+      options[:team_mode] ? self.team_mode = options[:team_mode] : self.team_mode = 1
+      options[:group_count] ? self.group_count = options[:group_count] : self.group_count = 1
+      options[:teams_from_group] ? self.teams_from_group = options[:teams_from_group] : self.teams_from_group = 2
+      options[:date_start] ? self.date_start = options[:date_start] : self.date_start = nil
       options[:location] ? self.location = options[:location] : self.location = ""
-      options[:maxteams] ? self.maxteams = options[:maxteams] : self.maxteams = 16
-      options[:replayuploads] ? self.replayuploads = options[:replayuploads] : self.replayuploads = 1
-      options[:replaydownloads] ? self.replaydownloads = options[:replaydownloads] : self.replaydownloads = 1
+      options[:max_teams] ? self.max_teams = options[:max_teams] : self.max_teams = 16
+      options[:replay_uploads] ? self.replay_uploads = options[:replay_uploads] : self.replay_uploads = 1
+      options[:replay_downloads] ? self.replay_downloads = options[:replay_downloads] : self.replay_downloads = 1
       options[:description] ? self.description = options[:description] : self.description = ""
-      options[:returndata] ? self.returndata = options[:returndata] : self.returndata = 0
-      options[:apikey] ? self.apikey = options[:apikey] : self.apikey = Binarybeast.apikey
+      options[:return_data] ? self.return_data = options[:return_data] : self.return_data = 0
+      options[:api_key] ? self.api_key = options[:api_key] : self.api_key = Binarybeast.api_key
     end
 
 
@@ -123,13 +123,13 @@ module Binarybeast
     # ----------------
 
     def update(options={:force => false})
-      response = self.class.get("", :query => {:TourneyID => self.tourneyid, :APIKey => self.apikey, :APIService => "Tourney.TourneyUpdate.Settings",
-                                    :Title => self.title, :Public => self.publish, :GameCode => self.gamecode,
-                                    :TypeID => self.typeid, :Elimination => self.elimination,
-                                    :TeamMode => self.teammode, :GroupCount => self.groupcount,
-                                    :TeamsFromGroup => self.teamsfromgroup, :DateStart => self.datestart,
-                                    :Location => self.location, :MaxTeams => self.maxteams, :ReplayUploads => self.replayuploads,
-                                    :ReplayDownloads => self.replaydownloads, :Description => self.description, :ReturnData => self.returndata})
+      response = self.class.get("", :query => {:id => self.id, :APIKey => self.api_key, :APIService => "Tourney.TourneyUpdate.Settings",
+                                    :Title => self.title, :Public => self.publish, :game_code => self.game_code,
+                                    :type_id => self.type_id, :Elimination => self.elimination,
+                                    :team_mode => self.team_mode, :group_count => self.group_count,
+                                    :teams_from_group => self.teams_from_group, :date_start => self.date_start,
+                                    :Location => self.location, :max_teams => self.max_teams, :replay_uploads => self.replay_uploads,
+                                    :replay_downloads => self.replay_downloads, :Description => self.description, :return_data => self.return_data})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 
@@ -145,14 +145,14 @@ module Binarybeast
     # ----------------
 
     def create(options={:force => false})
-      response = self.class.get("", :query => {:APIKey => self.apikey, :APIService => "Tourney.TourneyCreate.Create",
-                                    :Title => self.title, :Public => self.publish, :GameCode => self.gamecode,
-                                    :TypeID => self.typeid, :Elimination => self.elimination,
-                                    :TeamMode => self.teammode, :GroupCount => self.groupcount,
-                                    :TeamsFromGroup => self.teamsfromgroup, :DateStart => self.datestart,
-                                    :Location => self.location, :MaxTeams => self.maxteams, :ReplayUploads => self.replayuploads,
-                                    :ReplayDownloads => self.replaydownloads, :Description => self.description, :ReturnData => self.returndata})
-      self.tourneyid = response["TourneyID"] if response["Result"] == 200
+      response = self.class.get("", :query => {:APIKey => self.api_key, :APIService => "Tourney.TourneyCreate.Create",
+                                    :Title => self.title, :Public => self.publish, :game_code => self.game_code,
+                                    :type_id => self.type_id, :Elimination => self.elimination,
+                                    :team_mode => self.team_mode, :group_count => self.group_count,
+                                    :teams_from_group => self.teams_from_group, :date_start => self.date_start,
+                                    :Location => self.location, :max_teams => self.max_teams, :replay_uploads => self.replay_uploads,
+                                    :replay_downloads => self.replay_downloads, :Description => self.description, :return_data => self.return_data})
+      self.id = response["TourneyID"] if response["Result"] == 200
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 
@@ -167,7 +167,7 @@ module Binarybeast
     # ----------------
 
     def delete(options={:force => false})
-      response = self.class.get("", :query => {:APIKey => self.apikey, :APIService => "Tourney.TourneyDelete.Delete", :TourneyID => self.tourneyid})
+      response = self.class.get("", :query => {:APIKey => self.api_key, :APIService => "Tourney.TourneyDelete.Delete", :id => self.id})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 
@@ -185,7 +185,7 @@ module Binarybeast
       options[:force] ? force = true : force = false
       options[:seeding] ? seeding = options[:seeding] : seeding = "random"
       options[:teams] ? teams = options[:teams] : teams = nil
-      response = self.class.get("", :query => {:APIKey => self.apikey, :APIService => "Tourney.TourneyStart.Start", :Seeding => seeding, :Teams => teams})
+      response = self.class.get("", :query => {:APIKey => self.api_key, :APIService => "Tourney.TourneyStart.Start", :Seeding => seeding, :Teams => teams})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 
@@ -194,29 +194,29 @@ module Binarybeast
     # ----------------
     # Loads the information of a binarybeast tourney and saving it in the object. Pulling information - inverse of update
     # Example:
-    # @tourney = Binarybeast::Tourney.new(:tourneyid => "xSC21212194")
+    # @tourney = Binarybeast::Tourney.new(:id => "xSC21212194")
     # @tourney.load
     # ----------------
 
     def load(options={:force => false})
-      response = self.class.get("", :query => {:APIKey => self.apikey,  :APIService => "Tourney.TourneyLoad.Info", :TourneyID => self.tourneyid})
+      response = self.class.get("", :query => {:APIKey => self.api_key,  :APIService => "Tourney.TourneyLoad.Info", :id => self.id})
       return response if options[:force]
       if response["Result"] == 200
         self.title = response["TourneyInfo"]["Title"]
         self.publish = response["TourneyInfo"]["Public"]
-        self.gamecode = response["TourneyInfo"]["GameCode"]
-        self.typeid = response["TourneyInfo"]["TypeID"]
+        self.game_code = response["TourneyInfo"]["GameCode"]
+        self.type_id = response["TourneyInfo"]["TypeID"]
         self.elimination = response["TourneyInfo"]["Elimination"]
-        self.teammode = response["TourneyInfo"]["TeamMode"]
-        self.groupcount = response["TourneyInfo"]["GroupCount"]
-        self.teamsfromgroup = response["TourneyInfo"]["TeamsFromGroup"]
-        self.datestart = response["TourneyInfo"]["DateStart"]
+        self.team_mode = response["TourneyInfo"]["TeamMode"]
+        self.group_count = response["TourneyInfo"]["GroupCount"]
+        self.teams_from_group = response["TourneyInfo"]["TeamsFromGroup"]
+        self.date_start = response["TourneyInfo"]["DateStart"]
         self.location = response["TourneyInfo"]["Location"]
-        self.maxteams = response["TourneyInfo"]["MaxTeams"]
-        self.replayuploads = response["TourneyInfo"]["ReplayUploads"]
-        self.replaydownloads = response["TourneyInfo"]["ReplayDownloads"]
+        self.max_teams = response["TourneyInfo"]["MaxTeams"]
+        self.replay_uploads = response["TourneyInfo"]["ReplayUploads"]
+        self.replay_downloads = response["TourneyInfo"]["ReplayDownloads"]
         self.description = response["TourneyInfo"]["Description"]
-        self.returndata = response["TourneyInfo"]["ReturnData"]
+        self.return_data = response["TourneyInfo"]["ReturnData"]
         return true
       else
         return false
@@ -233,7 +233,7 @@ module Binarybeast
     # ----------------
 
     def setBuilding(options={:force => false})
-      response = self.class.get("", :query => {:APIKey => self.apikey, :APIService => "Tourney.TourneySetStatus.Building", :TourneyID => self.tourneyid})
+      response = self.class.get("", :query => {:APIKey => self.api_key, :APIService => "Tourney.TourneySetStatus.Building", :id => self.id})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 
@@ -247,7 +247,7 @@ module Binarybeast
     # ----------------
 
     def setConfirmation(options={:force => false})
-      response = self.class.get("", :query => {:APIKey => self.apikey, :APIService => "Tourney.TourneySetStatus.Confirmation", :TourneyID => self.tourneyid})
+      response = self.class.get("", :query => {:APIKey => self.api_key, :APIService => "Tourney.TourneySetStatus.Confirmation", :id => self.id})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 

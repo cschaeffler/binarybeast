@@ -6,7 +6,7 @@ describe Binarybeast::Tourney do
   end
   describe "load" do
     it "should load from eigenclass" do
-      tourney = Binarybeast::Tourney.load(:tourneyid => "xSC21212194")
+      tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
       tourney.should be_an_instance_of Binarybeast::Tourney
     end
   end
@@ -22,21 +22,21 @@ describe Binarybeast::Tourney do
     end
     it "should respond to all attributes" do
       @tourney.should respond_to(:title)
-      @tourney.should respond_to(:tourneyid)
+      @tourney.should respond_to(:id)
       @tourney.should respond_to(:publish)
-      @tourney.should respond_to(:gamecode)
-      @tourney.should respond_to(:typeid)
+      @tourney.should respond_to(:game_code)
+      @tourney.should respond_to(:type_id)
       @tourney.should respond_to(:elimination)
-      @tourney.should respond_to(:teammode)
-      @tourney.should respond_to(:groupcount)
-      @tourney.should respond_to(:teamsfromgroup)
-      @tourney.should respond_to(:datestart)
+      @tourney.should respond_to(:team_mode)
+      @tourney.should respond_to(:group_count)
+      @tourney.should respond_to(:teams_from_group)
+      @tourney.should respond_to(:date_start)
       @tourney.should respond_to(:location)
-      @tourney.should respond_to(:maxteams)
-      @tourney.should respond_to(:replayuploads)
-      @tourney.should respond_to(:replaydownloads)
+      @tourney.should respond_to(:max_teams)
+      @tourney.should respond_to(:replay_uploads)
+      @tourney.should respond_to(:replay_downloads)
       @tourney.should respond_to(:description)
-      @tourney.should respond_to(:returndata)
+      @tourney.should respond_to(:return_data)
       @tourney.should respond_to(:apikey)
     end
   end
@@ -83,7 +83,7 @@ describe Binarybeast::Tourney do
       @tourney.should respond_to(:load)
     end
     it "should load a tourney and set attributes" do
-      tourney = Binarybeast::Tourney.new(:tourneyid => "xSC21212194")
+      tourney = Binarybeast::Tourney.new(:id => "xSC21212194")
       tourney.load
       tourney.title.should eq("Gamkoi Dev Dummy")
     end

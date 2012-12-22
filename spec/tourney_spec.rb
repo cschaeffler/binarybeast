@@ -4,6 +4,12 @@ describe Binarybeast::Tourney do
   before :all do
     @tourney = Binarybeast::Tourney.new(:title => "Gamkoi DevTest Ruby", :description => "This is a tourney created via the Gamkoi.com ruby gem.")
   end
+  describe "load" do
+    it "should load from eigenclass" do
+      tourney = Binarybeast::Tourney.load(:tourneyid => "xSC21212194")
+      tourney.should be_an_instance_of Binarybeast::Tourney
+    end
+  end
   describe "new" do
     it "takes one to all parameters and returns an tourney object" do
       @tourney.should be_an_instance_of Binarybeast::Tourney

@@ -47,7 +47,42 @@ module Binarybeast
     format :json
     attr_accessor :apikey, :tourneyid, :title, :publish, :gamecode, :typeid, :elimination, :teammode, :groupcount, :teamsfromgroup, :datestart, :location, :maxteams, :replayuploads, :replaydownloads, :description, :returndata
     
-    
+    # Tourney Eigenclass
+    # Eigenclass
+    # ----------------
+    # used to load an tourney and returns an tourney object. returns a new tourney object loaded from binarybeast.
+    # Example:
+    # @tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
+    # ----------------
+
+    class << self
+      def load(options={:force => true})
+        options[:tourneyid] ? id = options[:tourneyid] : id = "xSC21212194"
+        response = self.class.get("", :query => {:APIKey => self.apikey,  :APIService => "Tourney.TourneyLoad.Info", :TourneyID => self.tourneyid})
+        if response["Result"] == 200
+          return response if options[:force] == true
+          tourney = Binarybeast::Tourney.new( :tourneyid => id,
+                                              :title => response["TourneyInfo"]["Title"],
+                                              :publish => response["TourneyInfo"]["Public"],
+                                              :gamecode => response["TourneyInfo"]["GameCode"],
+                                              :typeid => response["TourneyInfo"]["TypeID"],
+                                              :elimination => response["TourneyInfo"]["Elimination"],
+                                              :teammode => response["TourneyInfo"]["TeamMode"],
+                                              :groupcount => response["TourneyInfo"]["GroupCount"],
+                                              :teamsfromgroup => response["TourneyInfo"]["TeamsFromGroup"],
+                                              :datestart => response["TourneyInfo"]["DateStart"],
+                                              :location => response["TourneyInfo"]["Location"],
+                                              :maxteams => response["TourneyInfo"]["MaxTeams"],
+                                              :replayuploads => response["TourneyInfo"]["ReplayUploads"],
+                                              :replaydownloads => response["TourneyInfo"]["ReplayDownloads"],
+                                              :description => response["TourneyInfo"]["Description"],
+                                              :returndata => response["TourneyInfo"]["ReturnData"])
+          return tourney
+        else
+          return false
+        end
+      end
+    end
 
     # Constructor
     # Method

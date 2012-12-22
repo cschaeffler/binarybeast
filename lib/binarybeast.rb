@@ -19,7 +19,9 @@ module Binarybeast
   # Default api_key, this one is taken from my personal account.
   @@api_key = "3c8955130c6e1406420d6202649651fe.50c9faa593f9c6.00530099"
   
+  # Autoload Tourney Class when needed
   autoload :Tourney, 'binarybeast/tourney'
+  # Autoload Team Class when needed
   autoload :Team, 'binarybeast/team'
 
   # Getter for api_key Variable

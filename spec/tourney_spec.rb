@@ -8,6 +8,7 @@ describe Binarybeast::Tourney do
     it "should load from eigenclass" do
       tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
       tourney.should be_an_instance_of Binarybeast::Tourney
+      tourney.title.should eq("Gamkoi Dev Dummy")
     end
   end
   describe "new" do

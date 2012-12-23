@@ -66,6 +66,14 @@ more to come soon....
 
 ## Some stuff you should know
 
+### Eigenclass: Tourney
+
+There is an eigenclass of the Tourney Class. Functions are
+
+    .list
+    .listpopular
+    .load
+
 ### :force => true
 
 The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct response from the API you can go with something like this:

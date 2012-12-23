@@ -68,7 +68,7 @@ more to come soon....
 
 ### :force => true
 
-The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct access to the API you can go with something like this:
+The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct response from the API you can go with something like this:
 
     @tourney = Binarybeast::Tourney.new(:title => "Test")
     response = @tourney.create(:force => true)
@@ -77,6 +77,8 @@ the :force => true tells the function to give you the callback from the binarybe
 
     response["Result"]
     => 200
+
+the :force options is currently available to almost every function, the exception is Binarybeast::Tourney.new since this creates the ruby object and does not do an API Call.
 
 ## Changelog
 

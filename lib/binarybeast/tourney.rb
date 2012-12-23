@@ -60,6 +60,39 @@ module Binarybeast
           return false
         end
       end
+
+      # List
+      # Method
+      # ----------------
+      # Loads the List of Tourneys you've created. Returns an hash if successful, else false
+      # Example:
+      # @tourneylist = Binarybeast::Tourney.list
+      # ----------------
+
+      def list(options={:order => "DateStart"})
+        options[:api_key] ? api_key = options[:api_key] : api_key = Binarybeast.api_key
+        options[:order] ? order = options[:order] : order = "DateStart"
+        options[:direction] ? direction = options[:direction] : direction = "DESC"
+        options[:verbose] ? verbose = options[:verbose] : verbose = false
+        response = self.get('https://binarybeast.com/api', :query => {:APIKey => api_key, :APIService => "Tourney.TourneyList.My", :Order => order, :Direction => direction, :Verbose => verbose})
+        response["Result"] == 200 ? response : false
+      end
+
+      # ListPopular
+      # Method
+      # ----------------
+      # Loads the List of Popular Tourneys. Retuns an hash if successful, else false
+      # Example:
+      # @tourneylist = Binarybeast::Tourney.listpopular
+      # ----------------
+
+      def listpopular(options={:limit => 30})
+        options[:limit] ? limit = options[:limit] : limit = 30
+        options[:api_key] ? api_key = options[:api_key] : api_key = Binarybeast.api_key
+        response = self.get('https://binarybeast.com/api', :query => {:APIKey => api_key, :APIService => "Tourney.TourneyList.Popular", :Limit => limit})
+        response["Result"] == 200 ? response : false
+      end
+
     end
 
     # END EIGENCLASS

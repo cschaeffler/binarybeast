@@ -4,11 +4,25 @@ describe Binarybeast::Tourney do
   before :all do
     @tourney = Binarybeast::Tourney.new(:title => "Gamkoi DevTest Ruby", :description => "This is a tourney created via the Gamkoi.com ruby gem.")
   end
-  describe "load" do
-    it "should load from eigenclass" do
-      tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
-      tourney.should be_an_instance_of Binarybeast::Tourney
-      tourney.title.should eq("Gamkoi Dev Dummy")
+  describe "eigenclass" do
+    describe "list" do
+      it "should return list of tourneys" do
+        response = Binarybeast::Tourney.list
+        response.should be_instance_of Hash
+      end
+    end
+    describe "listpopular" do
+      it "should return list of popular tourneys" do
+        response = Binarybeast::Tourney.listpopular
+        response.should be_instance_of Hash
+      end
+    end
+    describe "load" do
+      it "should load from eigenclass" do
+        tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
+        tourney.should be_an_instance_of Binarybeast::Tourney
+        tourney.title.should eq("Gamkoi Dev Dummy")
+      end
     end
   end
   describe "new" do

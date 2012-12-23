@@ -105,13 +105,13 @@ module Binarybeast
     # ----------------
 
     def update(options={:force => false})
-      response = self.class.get("", :query => {:id => self.id, :APIKey => self.api_key, :APIService => "Tourney.TourneyUpdate.Settings",
+      response = self.class.get("", :query => {:TourneyID => self.id, :APIKey => self.api_key, :APIService => "Tourney.TourneyUpdate.Settings",
                                     :Title => self.title, :Public => self.publish, :game_code => self.game_code,
-                                    :type_id => self.type_id, :Elimination => self.elimination,
-                                    :team_mode => self.team_mode, :group_count => self.group_count,
-                                    :teams_from_group => self.teams_from_group, :date_start => self.date_start,
-                                    :Location => self.location, :max_teams => self.max_teams, :replay_uploads => self.replay_uploads,
-                                    :replay_downloads => self.replay_downloads, :Description => self.description, :return_data => self.return_data})
+                                    :TypeID => self.type_id, :Elimination => self.elimination,
+                                    :TeamMode => self.team_mode, :GroupCount => self.group_count,
+                                    :TeamsFromGroup => self.teams_from_group, :DateStart => self.date_start,
+                                    :Location => self.location, :MaxTeams => self.max_teams, :ReplayUploads => self.replay_uploads,
+                                    :ReplayDownloads => self.replay_downloads, :Description => self.description, :ReturnData => self.return_data})
       options[:force] ? response : response["Result"] == 200 ? true : false
     end
 

@@ -25,20 +25,20 @@ there are several options you can use when creating a tourney:
     :title => String
     :description => String
     :public => Integer
-    :gamecode => String
-    :typeid => Integer
+    :game_code => String
+    :type_id => Integer
     :elimination => Integer
-    :teammode => Integer
-    :groupcount => Integer
-    :teamsfromgroup => Integer
+    :team_mode => Integer
+    :group_count => Integer
+    :teams_from_group => Integer
     :location => String
-    :maxteams => Integer
-    :replayuploads => Integer
-    :replaydownloads => Integer
-    :autostart => Integer
-    :returndata => Integer
+    :max_teams => Integer
+    :replay_uploads => Integer
+    :replay_downloads => Integer
+    :auto_start => Integer
+    :return_data => Integer
 
-however, only :title => String is required or :tourneyid => String if you want to load an existing tournament.
+however, only :title => String is required for creating a new tourney object.
 
 ## Create a new Tournament on BinaryBeast
 
@@ -47,8 +47,7 @@ however, only :title => String is required or :tourneyid => String if you want t
     
 ## Fetching a existing Tournament from BinaryBeast
 
-    @tourney = Binarybeast::Tourney.new(:tourneyid => "xSC21212194")
-    @tourney.load
+    @tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
 
 ## Current implemented Functions
 
@@ -67,6 +66,8 @@ more to come soon....
 
 ## Some stuff you should know
 
+### :force => true
+
 The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct access to the API you can go with something like this:
 
     @tourney = Binarybeast::Tourney.new(:title => "Test")
@@ -76,3 +77,11 @@ the :force => true tells the function to give you the callback from the binarybe
 
     response["Result"]
     => 200
+
+## Changelog
+
+### Version: 0.1.3.pre
+
+* Added Eigenclass to Tourney, so you can call Binarybeast::Tourney.load(:id => "").
+* Changed variable names to use underscore naming convention rather than all lower case naming.
+* Added a call function to the Binarybeast module. You are now able to call Binarybeast.call() to make a raw API call to Binarybeast. Returns a JSON parsed array.

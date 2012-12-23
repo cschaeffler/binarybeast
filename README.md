@@ -90,6 +90,15 @@ the :force options is currently available to almost every function, the exceptio
 
 ## Changelog
 
+### Version: 0.1.5.pre
+
+* Added list to eigenclass. It lists tourneys that you've created. Example: tourneys = Binarybeast::Tourney.list
+* Added listpopular to eigenclass. It lists popular tourney. Example: tourneys = Binarybeast::Tourney.listpopular
+
+### Version: 0.1.4.pre
+
+* Fixed a typo in some tests.
+
 ### Version: 0.1.3.pre
 
 * Added Eigenclass to Tourney, so you can call Binarybeast::Tourney.load(:id => "").

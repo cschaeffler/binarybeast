@@ -34,14 +34,6 @@ module BinaryBeast
       Hash[instance_variables.map {|attr| [attr.slice(1..-1), instance_variable_get(attr)] } ]
     end
 
-    def initialize()
-      self.test1 = 'yay'
-      self.test2 = 'wtf'
-      self.test3 = 15
-      self.test4 = nil
-      self.test5 = false
-    end
-
   end
 
 end

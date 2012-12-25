@@ -53,7 +53,7 @@ module BinaryBeast
         #Use this test tournament as a default value for now
         id ||= 'xSC21212194'
 
-        call('Tourney.TourneyLoad.Info', {'tourney_id' => id}) do |response|
+        BinaryBeast.call('Tourney.TourneyLoad.Info', {'tourney_id' => id}) do |response|
 
           return false if response['result'] == 200
           return response if options[:force]
@@ -73,7 +73,7 @@ module BinaryBeast
       # ----------------
 
       def list(options={:order => 'date_start'})
-        call('Tourney.TourneyList.My', {:order => 'date_start'}.merge(options)) do |response|
+        BinaryBeast.call('Tourney.TourneyList.My', {:order => 'date_start'}.merge(options)) do |response|
           return false if response['result'] != 200
           return response if options[:force]
 

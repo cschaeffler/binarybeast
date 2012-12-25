@@ -1,4 +1,4 @@
-module Binarybeast
+module BinaryBeast
 	class Team
 	end
 end

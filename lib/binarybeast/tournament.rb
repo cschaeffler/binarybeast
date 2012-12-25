@@ -1,18 +1,19 @@
-module Binarybeast
-# Tourney
+module BinaryBeast
+  # Tourney
   # Class
   # ---------------
-  # This is the Tourney class. It will be used to most. It gives you a brand new Tourney object to call methods on.
+  # This is the Tourney service class. It will be used to most. It gives you a brand new Tourney object to call methods on.
   # Example:
   # tourney = Binarybeast::Tourney.new("Gamkoi Test")
   # ---------------
   # gives you a tourney object
   
-  class Tourney
-    include HTTParty
-    base_uri 'https://binarybeast.com/api'
-    format :json
-    attr_accessor :api_key, :id, :title, :publish, :game_code, :type_id, :elimination, :team_mode, :group_count, :teams_from_group, :date_start, :location, :max_teams, :replay_uploads, :replay_downloads, :description, :return_data
+  class Tournament < BinaryBeast::Service
+
+    attr_accessor :api_key, :id, :title, :publish, :game_code,
+      :type_id, :elimination, :team_mode, :group_count, :teams_from_group,
+      :date_start, :location, :max_teams, :replay_uploads, :replay_downloads,
+      :description, :return_data
     
     # Tourney Eigenclass
     # Eigenclass
@@ -21,8 +22,6 @@ module Binarybeast
     # ----------------
 
     class << self
-      include HTTParty
-      format :json
 
       # Load
       # Method
@@ -38,23 +37,23 @@ module Binarybeast
         response = self.get('https://binarybeast.com/api', :query => {:APIKey => Binarybeast.api_key,  :APIService => "Tourney.TourneyLoad.Info", :TourneyID => id})
         if response["Result"] == 200
           return response if force
-          tourney = Binarybeast::Tourney.new( :id => id,
-                                              :title => response["TourneyInfo"]["Title"],
-                                              :publish => response["TourneyInfo"]["Public"],
-                                              :game_code => response["TourneyInfo"]["GameCode"],
-                                              :type_id => response["TourneyInfo"]["TypeID"],
-                                              :elimination => response["TourneyInfo"]["Elimination"],
-                                              :team_mode => response["TourneyInfo"]["TeamMode"],
-                                              :group_count => response["TourneyInfo"]["GroupCount"],
+          tourney = BinaryBeast::Tourney.new( :id               => id,
+                                              :title            => response["TourneyInfo"]["Title"],
+                                              :publish          => response["TourneyInfo"]["Public"],
+                                              :game_code        => response["TourneyInfo"]["GameCode"],
+                                              :type_id          => response["TourneyInfo"]["TypeID"],
+                                              :elimination      => response["TourneyInfo"]["Elimination"],
+                                              :team_mode        => response["TourneyInfo"]["TeamMode"],
+                                              :group_count      => response["TourneyInfo"]["GroupCount"],
                                               :teams_from_group => response["TourneyInfo"]["TeamsFromGroup"],
-                                              :date_start => response["TourneyInfo"]["DateStart"],
-                                              :location => response["TourneyInfo"]["Location"],
-                                              :max_teams => response["TourneyInfo"]["MaxTeams"],
-                                              :replay_uploads => response["TourneyInfo"]["ReplayUploads"],
+                                              :date_start       => response["TourneyInfo"]["DateStart"],
+                                              :location         => response["TourneyInfo"]["Location"],
+                                              :max_teams        => response["TourneyInfo"]["MaxTeams"],
+                                              :replay_uploads   => response["TourneyInfo"]["ReplayUploads"],
                                               :replay_downloads => response["TourneyInfo"]["ReplayDownloads"],
-                                              :description => response["TourneyInfo"]["Description"],
-                                              :return_data => response["TourneyInfo"]["ReturnData"],
-                                              :api_key => Binarybeast.api_key)
+                                              :description      => response["TourneyInfo"]["Description"],
+                                              :return_data      => response["TourneyInfo"]["ReturnData"],
+                                              :api_key          => Binarybeast.api_key)
           return tourney
         else
           return false
@@ -86,7 +85,7 @@ module Binarybeast
       # @tourneylist = Binarybeast::Tourney.listpopular
       # ----------------
 
-      def listpopular(options={:limit => 30})
+      def listPopular(options={:limit => 30})
         options[:limit] ? limit = options[:limit] : limit = 30
         options[:api_key] ? api_key = options[:api_key] : api_key = Binarybeast.api_key
         response = self.get('https://binarybeast.com/api', :query => {:APIKey => api_key, :APIService => "Tourney.TourneyList.Popular", :Limit => limit})
@@ -109,8 +108,14 @@ module Binarybeast
 
     def initialize(options={:title => "Gamkoi DevTest"})
       self.id = options[:id] if options[:id]
-      options[:title] ? self.title = options[:title] : self.title = "Test"
-      options[:public] ? self.publish = options[:public] : self.publish = 0
+      
+      # Merge the default values and assign all values locally using the base serice classes attribute assigner, saves loads of typing :)
+       
+      self.title      = options[:title]     || 'API Test Touranment'
+      self.public     = options[:public]    || 0
+      
+      #options[:title] ? self.title = options[:title] : self.title = "Test"
+      #options[:public] ? self.publish = options[:public] : self.publish = 0
       options[:game_code] ? self.game_code = options[:game_code] : self.game_code = ""
       options[:type_id] ? self.type_id = options[:type_id] : self.type_id = 0
       options[:elimination] ? self.elimination = options[:elimination] : self.elimination = 1

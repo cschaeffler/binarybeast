@@ -20,11 +20,12 @@ module BinaryBeast
   @@api_key = '3c8955130c6e1406420d6202649651fe.50c9faa593f9c6.00530099'
 
   # Autoload the service classes
-  #autoload :Service,        'binarybeast/service'
+  require                   'binarybeast/constants'
+  autoload :Service,        'binarybeast/service'
   autoload :Tournament,     'binarybeast/tournament'
   autoload :Team,           'binarybeast/team'
   autoload :Game,           'binarybeast/game'
-  require                   'binarybeast/constants'
+  
 
   # Getter for api_key Variable
   def self.api_key

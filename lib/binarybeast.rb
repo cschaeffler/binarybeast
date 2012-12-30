@@ -17,6 +17,8 @@ module BinaryBeast
   # Set HTTParty standard format to JSON, its standard what binarybeast api returns.
   format :json
   # Default api_key, this one is taken from my personal account.
+  # @todo the api key should not be initialized with a personal account for the public release, 
+  # in the future, use the test account api if anything: e17d31bfcbedd1c39bcb018c5f0d0fbf.4dcb36f5cc0d74.24632846
   @@api_key = '3c8955130c6e1406420d6202649651fe.50c9faa593f9c6.00530099'
 
   # Autoload the service classes

@@ -10,6 +10,24 @@ module BinaryBeast
   
   class Service
 
+
+    # convertKeys
+    # Method
+    # ---------------
+    # This method used in conjuction with assignAttributes, will convert all keys of a hash returned by BinaryBeast, 
+    # from strings to symbols 
+    # For example in Tournament::initialize({:title=>'title of the tour'}), :title will automatically be assigned to this.title = 'Title of the tour' 
+    # ---------------
+    def convertHashKeys(hash)
+
+      hash.inject({}) do |mem, (key, value)|
+        mem[key.to_sym] = value
+        mem
+      end 
+
+    end
+
+
     # assignAttributes
     # Method
     # ---------------
@@ -17,9 +35,12 @@ module BinaryBeast
     # into the instance variables
     # For example in Tournament::initialize({:title=>'title of the tour'}), :title will automatically be assigned to this.title = 'Title of the tour' 
     # ---------------
-    def self.assignAttributes(attributes = {})
-      attributes.each_pair do |key, value|
-        self.send("#{key}=", value)
+    def assignAttributes(values = {})
+      values.each_pair do |key, value|
+        # Continue only if this method has an attribute setter for this value 
+        if respond_to?("#{key}=")  
+          self.send("#{key}=", value)
+        end
       end
     end
     

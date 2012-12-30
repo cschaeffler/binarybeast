@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Binarybeast::Team do
+describe BinaryBeast::Team do
 	it "should work" do
 	end
 end

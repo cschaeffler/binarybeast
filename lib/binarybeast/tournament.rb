@@ -10,23 +10,30 @@ module BinaryBeast
   
   class Tournament < BinaryBeast::Service
 
-    attr_accessor :api_key, :id, :title, :public, :game_code,
-      :type_id, :elimination, :team_mode, :group_count, :teams_from_group,
-      :date_start, :location, :max_teams, :replay_uploads, :replay_downloads,
+    attr_accessor :api_key, :id, :tourney_id, :title, :public, :display_name, :url,
+      :game_code, :game, :game_style, :game_icon,
+      :status, :type_id, :elimination, :teams_confirmed_count, :teams_joined_count,
+      :team_mode, :teams_from_group, :max_teams, :group_count,
+      :view_count, :date_start, :location,
+      :replay_uploads, :replay_downloads,
       :description, :return_data
-      
+
+
     # Default values for each attribute
     DEFAULTS = {
-      :title            => 'API Test Tournament',
+      :id               => nil,
+      :title            => 'Gamkoi DevTest', #"BinaryBeast API Ruby (#{BinaryBeast::VERSION}) Test Tournament",
+      :game_code        => 'misc',
+      :game             => 'Misc.',
       :type_id          => BinaryBeast::TOURNAMENT_TYPE_BRACKETS,
       :elimination      => BinaryBeast::ELIMINATION_SINGLE,
       :team_mode        => 1,
       :group_count      => 1,
       :teams_from_group => 2, 
-      :date_start       => Time.new.strftime("%Y-m-d"),
+      :date_start       => Time.new.strftime("%Y-%m-%d"),
       :location         => '',
       :max_teams        => 16,
-      :replay_uploads   => BinaryBeast::REPLAY_UPLOADS_ENABLED,
+      :replay_uploads   => BinaryBeast::REPLAY_UPLOADS_OPTIONAL,
       :replay_downloads => BinaryBeast::REPLAY_DOWNLOADS_ENABLED,
       :description      => nil,
       :return_data      => 0,
@@ -48,46 +55,47 @@ module BinaryBeast
       # @tourney = Binarybest::Tourney.load(:id => "xSC21212194")
       # ----------------
 
-      def load(id, options={:force => false})
+      def load(options={:force => false, :id => 'xSC21212194'})
         
         #Use this test tournament as a default value for now
-        id ||= 'xSC21212194'
+        id = options[:id] || options[:tourney_id] || 'xSC21212194'
 
-        BinaryBeast.call('Tourney.TourneyLoad.Info', {'tourney_id' => id}) do |response|
+        BinaryBeast.call('Tourney.TourneyLoad.Info', :tourney_id => id) do |response|
 
-          return false if response['result'] == 200
+          return false if response['result'] != 200
           return response if options[:force]
 
-          return BinaryBeast.Tournament.new(response['tourney_info'])
+          return BinaryBeast::Tournament.new(response['tourney_info'])
           
         end 
 
       end
+
+
 
       # List
       # Method
       # ----------------
       # Loads the List of Tourneys you've created. Returns an array if successful, else false
       # Example:
-      # @tourneylist = Binarybeast::Tourney.list
+      # @tourneylist = BinaryBeast::Tourney.list
       # ----------------
 
       def list(options={:order => 'date_start'})
-        BinaryBeast.call('Tourney.TourneyList.My', {:order => 'date_start'}.merge(options)) do |response|
-          return false if response['result'] != 200
+        BinaryBeast.call('Tourney.TourneyList.Creator', {:order => 'date_start'}.merge(options)) do |response|
           return response if options[:force]
+          return false if response['result'] != 200
 
           # return an array of initialized tournaments instead of just the raw data, unless asked otherwise          
           return response['list'].map do |tourney|
-            tourney.id = tourney.tourney_id
             BinaryBeast::Tournament.new(tourney)
           end
-
+  
         end
         # end Tourney.TourneyList.Popular
-
+  
       end
-
+  
       # ListPopular
       # Method
       # ----------------
@@ -95,25 +103,23 @@ module BinaryBeast
       # Example:
       # @tourneylist = Binarybeast::Tourney.listpopular
       # ----------------
-
+  
       def listPopular(options={:limit => 30})
-
+  
         BinaryBeast.call('Tourney.TourneyList.Popular', {:limit => 3}.merge(options)) do |response|
           return false if response['result'] != 200
           return response if options[:force]
-
+  
           # return an array of initialized tournaments instead of just the raw data, unless asked otherwise          
           return response['list'].map do |tourney|
-            tourney.id = tourney.tourney_id
             BinaryBeast::Tournament.new(tourney)
           end
-
+  
         end
         # end Tourney.TourneyList.Popular
-
+  
       end
       # end listPopular
-      
 
     end
     # END EIGENCLASS
@@ -128,11 +134,9 @@ module BinaryBeast
     # Binarybeast::Tourney.new(:title => "Gamkoi DevCup")
     # ----------------
 
-    def initialize(options={:title => "Gamkoi DevTest"})
-
-      self.id = options[:id] if options[:id]
-
+    def initialize(options={})
       # Merge the default values and assign all values locally using the base serice classes attribute assigner, saves loads of typing :)
+      options[:id] = options[:id] || options['id'] || options[:tourney_id] || options['tourney_id']
       assignAttributes(Tournament::DEFAULTS.merge(options))
     end
 
@@ -165,6 +169,7 @@ module BinaryBeast
 
     def create(options={:force => false})
       response = BinaryBeast.call('Tourney.TourneyCreate.Create', getAttributes)
+      self.id = response['tourney_id'] if response['result'] == 200
       options[:force] ? response : response['result'] == 200 ? true : false
     end
 
@@ -221,7 +226,7 @@ module BinaryBeast
       return response if options[:force]      
       return false if response['result']
       
-      assignAttributes(response['tourney_info'])
+      self.assignAttributes(response['tourney_info'])
       return true
     end
 
@@ -245,7 +250,7 @@ module BinaryBeast
     # ----------------
     # Sets the status of the tourney correlating to the object to: Status: Confirmation
     # Example:
-    # @tourney = Binarybeast::Tourney.new
+    # @tourney = BinaryBeast::Tourney.new
     # @tourney.setConfirmation
     # ----------------
 
@@ -254,7 +259,6 @@ module BinaryBeast
       options[:force] ? response : response['result'] == 200 ? true : false
     end
 
-
   end
-  # END Class Tourney
+  # END Class Tournament
 end

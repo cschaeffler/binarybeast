@@ -5,7 +5,7 @@ require 'binarybeast/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "binarybeast"
-  gem.version       = Binarybeast::VERSION
+  gem.version       = BinaryBeast::VERSION
   gem.authors       = ["Crispin Schaeffler"]
   gem.email         = ["crispinschaeffler@googlemail.com"]
   gem.description   = %q{Ruby gem to access the binary beast api.}

@@ -51,7 +51,8 @@ module BinaryBeast
     options.merge!({
       :api_key              => @@api_key,
       :api_use_underscores  => true,
-      :api_service          => service
+      :api_service          => service,
+      :api_agent            => "BinaryBeast Ruby API: Version #{BinaryBeast::VERSION}"
     })
 
     response = self.get('', :query => options)

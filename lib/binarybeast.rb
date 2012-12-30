@@ -54,10 +54,9 @@ module BinaryBeast
 
     response = self.get('', :query => options)
 
-    unless block_given?
-      return response
-    else
-      yield response
+    yield response if block_given?
+    response
+    
     end
 
   end

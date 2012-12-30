@@ -52,7 +52,7 @@ module BinaryBeast
       :api_key              => @@api_key,
       :api_use_underscores  => true,
       :api_service          => service,
-      :api_agent            => "BinaryBeast Ruby API: Version #{BinaryBeast::VERSION}"
+      :api_agent            => "BinaryBeast API Ruby: Version #{BinaryBeast::VERSION}"
     })
 
     response = self.get('', :query => options)

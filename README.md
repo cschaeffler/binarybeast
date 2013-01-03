@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-    @tourney = Binarybeast::Tourney.new
+    @tourney = Binarybeast::Tournament.new
 
 there are several options you can use when creating a tourney:
 
@@ -42,12 +42,12 @@ however, only :title => String is required for creating a new tourney object.
 
 ## Create a new Tournament on BinaryBeast
 
-    @tourney = Binarybeast::Tourney.new(:title => "Test Tournament", :description => "This comes from a ruby gem accessing your api.")
+    @tourney = Binarybeast::Tournament.new(:title => "Test Tournament", :description => "This comes from a ruby gem accessing your api.")
     @tourney.create
     
 ## Fetching a existing Tournament from BinaryBeast
 
-    @tourney = Binarybeast::Tourney.load(:id => "xSC21212194")
+    @tourney = Binarybeast::Tournament.load(:id => "xSC21212194")
 
 ## Current implemented Functions
 
@@ -61,6 +61,7 @@ This is a pre release of the gem soon to be. Current functions include
     .setBuild
     .setConfirmation
     .start
+    .loadTeams
 
 more to come soon....
 
@@ -71,14 +72,14 @@ more to come soon....
 There is an eigenclass of the Tourney Class. Functions are
 
     .list
-    .listpopular
+    .listPopular
     .load
 
 ### :force => true
 
 The BinaryBeast API sends back JSON from every request. However, if you use this gem we catch the JSON Data and proccess it. If you want to have a direct response from the API you can go with something like this:
 
-    @tourney = Binarybeast::Tourney.new(:title => "Test")
+    @tourney = Binarybeast::Tournament.new(:title => "Test")
     response = @tourney.create(:force => true)
     
 the :force => true tells the function to give you the callback from the binarybeast directly. The response is now a parsed hash, so this will work

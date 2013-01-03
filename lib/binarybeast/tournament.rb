@@ -16,7 +16,7 @@ module BinaryBeast
       :team_mode, :teams_from_group, :max_teams, :group_count,
       :view_count, :date_start, :location,
       :replay_uploads, :replay_downloads,
-      :description, :return_data
+      :description, :return_data, :teams
 
 
     # Default values for each attribute
@@ -257,6 +257,26 @@ module BinaryBeast
     def setConfirmation(options={:force => false})
       response = BinaryBeast.call('Tourney.TourneySetStatus.Confirmation', :tourney_id => self.id)
       options[:force] ? response : response['result'] == 200 ? true : false
+    end
+
+    # loadTeams
+    # Method
+    # ----------------
+    # Should load all teams in the tourney and add them to the teams array variable
+    # Example:
+    # @tourney.loadTeams
+    # => true
+    # p @tourney.teams
+    # => [Team1, Team2, Team3]
+    # ----------------
+
+    def loadTeams(options={:force => false})
+      BinaryBeast.call('Tourney.TourneyLoad.Teams', :tourney_id => self.id) do |response|
+        return response if options[:force]
+        return false if response['result'] != 200
+          @teams = response['teams'].map { |t| BinaryBeast::Team.new(t)}
+        return true
+      end
     end
 
   end

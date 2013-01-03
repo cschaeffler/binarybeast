@@ -1,3 +1,3 @@
 module BinaryBeast
-  VERSION = "0.1.5.pre"
+  VERSION = "0.2.0.pre"
 end

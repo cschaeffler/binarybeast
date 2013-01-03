@@ -19,9 +19,9 @@ describe BinaryBeast::Tournament do
     end
     describe "load" do
       it "should load from eigenclass" do
-        tournament = BinaryBeast::Tournament.load(:id => 'xSC21212194')
+        tournament = BinaryBeast::Tournament.load(:id => @tournament.tourney_id)
         tournament.should be_an_instance_of BinaryBeast::Tournament
-        tournament.title.should eq('Gamkoi Dev Dummy')
+        tournament.title.should eq('Gamkoi DevTest Ruby')
       end
     end
   end
@@ -101,9 +101,9 @@ describe BinaryBeast::Tournament do
       @tournament.should respond_to(:load)
     end
     it "should load a tourney and set attributes" do
-      tournament = BinaryBeast::Tournament.load(:id => 'xSC21212194')
+      tournament = BinaryBeast::Tournament.load(:id => @tournament.tourney_id)
       tournament.load
-      tournament.title.should eq("Gamkoi Dev Dummy")
+      tournament.title.should eq("Gamkoi DevTest Ruby")
     end
   end
   describe "set status" do
